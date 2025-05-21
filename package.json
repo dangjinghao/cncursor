@@ -22,6 +22,22 @@
       {
         "command": "cncursor.moveRight",
         "title": "cncursorWordEndRight"
+      },
+      {
+        "command": "cncursor.deleteRight",
+        "title": "cncursorWordDeleteRight"
+      },
+      {
+        "command": "cncursor.deleteLeft",
+        "title": "cncursorWordDeleteLeft"
+      },
+      {
+        "command": "cncursor.selectRight",
+        "title": "cncursorWordSelectRight"
+      },
+      {
+        "command": "cncursor.selectLeft",
+        "title": "cncursorWordSelectLeft"
       }
     ]
   },
