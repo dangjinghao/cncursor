@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 	jieba.load();
 
 	let cnw = new CnWords();
-	vscode.window.onDidChangeTextEditorSelection(cnw.WatchLineSelection());
+	// vscode.window.onDidChangeTextEditorSelection(cnw.WatchLineSelection());
 
 	const disposableLeft = vscode.commands.registerCommand('cncursor.moveLeft', cnw.MoveLeft());
 	const disposableRight = vscode.commands.registerCommand('cncursor.moveRight', cnw.MoveRight());
@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 		disposableDeleteLeft, disposableDeleteRight,
 		disposableSelectLeft, disposableSelectRight);
 
-	cnw.InitWords();
+	// cnw.InitWords();
 }
 
 // This method is called when your extension is deactivated

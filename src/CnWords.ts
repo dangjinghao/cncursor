@@ -16,7 +16,6 @@ interface PosInfo {
 export class CnWords {
 	private previousLine: string = '';
 	private currentLineWords: WordInfo[] = [];
-
 	static HasChinese(str: string): boolean {
 		return /[\u3400-\u9FFF\uF900-\uFAFF]/.test(str);
 	}
@@ -35,8 +34,8 @@ export class CnWords {
 		if (this.previousLine === lineText) {
 			return;
 		}
+		// console.log("updating words");
 		this.previousLine = lineText;
-		console.log("update words");
 		let words = jieba.cut(lineText, true);
 		// merge adjcent whitespace
 		words = words.reduce((acc: string[], word: string) => {
@@ -81,6 +80,11 @@ export class CnWords {
 		return -1;
 	}
 
+	private CurrentPos(editor: vscode.TextEditor): PosInfo {
+		const position = editor.selection.active;
+		return { line: position.line, offset: position.character };
+	}
+
 	private CalculateWordStartOffset(wordIdx: number): number {
 		return this.currentLineWords[wordIdx]?.start ?? 0;
 	}
@@ -89,39 +93,54 @@ export class CnWords {
 		return this.currentLineWords[wordIdx]?.end ?? 0;
 	}
 	private LeftWord(editor: vscode.TextEditor): PosInfo {
-
+		this.UpdateWords(editor);
 		const position = editor.selection.active;
 		const offset = position.character;
+		if (offset === 0 && position.line > 0) {
+			// left word in the start of line
+			const prevLineText = editor.document.lineAt(position.line - 1).text;
+			return { line: position.line - 1, offset: prevLineText.length };
+		}
 		let wordIdx = this.LocateWordIndex(offset);
 
-		assert(wordIdx >= 0, 'wordIdx should be >= 0');
+		if (wordIdx < 0) {
+			return this.CurrentPos(editor);
+		}
 
 		if (this.currentLineWords[wordIdx].word.trim() === '' && wordIdx > 0) {
 			wordIdx -= 1;
 		}
 		return { line: position.line, offset: this.CalculateWordStartOffset(wordIdx) };
 	}
+
 	public MoveLeft(): () => void {
 		return () => {
 			const editor = vscode.window.activeTextEditor;
 			if (!editor) {
 				return;
 			}
-
 			const leftWordPos = this.LeftWord(editor);
 
 			const newPos = new vscode.Position(leftWordPos.line, leftWordPos.offset);
-
 			editor.selection = new vscode.Selection(newPos, newPos);
+			editor.revealRange(new vscode.Range(newPos, newPos));
 		};
 	}
 
 	private RightWord(editor: vscode.TextEditor): PosInfo {
+		this.UpdateWords(editor);
+
 		const position = editor.selection.active;
 		const offset = position.character;
+		if (offset === editor.document.lineAt(position.line).text.length && position.line < editor.document.lineCount - 1) {
+			// right word in the end of line
+			return { line: position.line + 1, offset: 0 };
+		}
 		let wordIdx = this.LocateWordIndex(offset);
 
-		assert(wordIdx >= 0, 'wordIdx should be >= 0');
+		if (wordIdx < 0) {
+			return this.CurrentPos(editor);
+		}
 
 		if (offset === this.CalculateWordEndOffset(wordIdx) && wordIdx < this.currentLineWords.length - 1) {
 			wordIdx += 1;
@@ -144,10 +163,11 @@ export class CnWords {
 
 			const newPos = new vscode.Position(rightWordInfo.line, rightWordInfo.offset);
 			editor.selection = new vscode.Selection(newPos, newPos);
+			editor.revealRange(new vscode.Range(newPos, newPos));
 		};
 	}
 	// Delete: wordDirection: return the posInfo, and new cursor position
-	private Delete(wordDirection: (editor: vscode.TextEditor) => [PosInfo, number]) {
+	private Delete(wordDirection: (editor: vscode.TextEditor) => [PosInfo, PosInfo]) {
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) {
 			return;
@@ -158,27 +178,32 @@ export class CnWords {
 		const deleteEnd = position.character;
 		const range = new vscode.Range(
 			deleteInfo[0].line, deleteStart,
-			deleteInfo[0].line, deleteEnd
+			position.line, deleteEnd
 		);
 
 		editor.edit(editBuilder => {
 			editBuilder.delete(range);
 		}).then(() => {
-			const newPos = new vscode.Position(deleteInfo[0].line, deleteInfo[1]);
+			const newPos = new vscode.Position(deleteInfo[1].line, deleteInfo[1].offset);
 			editor.selection = new vscode.Selection(newPos, newPos);
 			this.UpdateWords(editor);
+			editor.revealRange(new vscode.Range(newPos, newPos));
 		});
+
 	}
 	public DeleteLeft(): () => void {
 		return () => this.Delete((e) => {
 			let info = this.LeftWord(e);
-			return [info, info.offset];
+			return [info, info];
 		});
 	}
 	public DeleteRight(): () => void {
 		return () => this.Delete((e) => {
 			let info = this.RightWord(e);
-			return [info, e.selection.active.character];
+			const position = e.selection.active;
+			let offset = position.character;
+			let line = position.line;
+			return [info, { line: line, offset: offset }];
 		});
 	}
 
@@ -192,7 +217,7 @@ export class CnWords {
 		const targetPos = new vscode.Position(targetPosInfo.line, targetPosInfo.offset);
 
 		editor.selection = new vscode.Selection(selection.anchor, targetPos);
-		editor.revealRange(new vscode.Range(selection.anchor, targetPos));
+		editor.revealRange(new vscode.Range(targetPos, targetPos));
 	}
 
 

@@ -1,7 +1,7 @@
 {
   "name": "cncursor",
   "displayName": "cncursor",
-  "description": "Chinese cursor movement support.",
+  "description": "Enhanced cursor movement and word operations for Chinese text in VS Code.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.100.0"
@@ -9,35 +9,65 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "*"
-  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "cncursor.moveLeft",
-        "title": "cncursorWordLeft"
+        "title": "向左移动一个中文单词距离的光标"
       },
       {
         "command": "cncursor.moveRight",
-        "title": "cncursorWordEndRight"
+        "title": "向右移动一个中文单词距离的光标"
       },
       {
         "command": "cncursor.deleteRight",
-        "title": "cncursorWordDeleteRight"
+        "title": "向右删除一个中文单词"
       },
       {
         "command": "cncursor.deleteLeft",
-        "title": "cncursorWordDeleteLeft"
+        "title": "向左删除一个中文单词"
       },
       {
         "command": "cncursor.selectRight",
-        "title": "cncursorWordSelectRight"
+        "title": "向右选择一个中文单词"
       },
       {
         "command": "cncursor.selectLeft",
-        "title": "cncursorWordSelectLeft"
+        "title": "向左选择一个中文单词"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "cncursor.moveLeft",
+        "key": "ctrl+left",
+        "when": "textInputFocus && !accessibilityModeEnabled"
+      },
+      {
+        "command": "cncursor.moveRight",
+        "key": "ctrl+right",
+        "when": "textInputFocus && !accessibilityModeEnabled"
+      },
+      {
+        "command": "cncursor.deleteRight",
+        "key": "ctrl+delete",
+        "when": "textInputFocus && !editorReadonly"
+      },
+      {
+        "command": "cncursor.deleteLeft",
+        "key": "ctrl+backspace",
+        "when": "textInputFocus && !editorReadonly"
+      },
+      {
+        "command": "cncursor.selectRight",
+        "key": "ctrl+shift+right",
+        "when": "textInputFocus && !accessibilityModeEnabled"
+      },
+      {
+        "command": "cncursor.selectLeft",
+        "key": "ctrl+shift+left",
+        "when": "textInputFocus && !accessibilityModeEnabled"
       }
     ]
   },
