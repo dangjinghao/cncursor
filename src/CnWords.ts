@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as jieba from 'nodejieba';
 
 interface WordInfo {
 	word: string;
@@ -15,10 +14,13 @@ interface PosInfo {
 export class CnWords {
 	private previousLine: string = '';
 	private currentLineWords: WordInfo[] = [];
+	private jieba: any;
 	static HasChinese(str: string): boolean {
 		return /[\u3400-\u9FFF\uF900-\uFAFF]/.test(str);
 	}
-
+	constructor(jieba: any) {
+		this.jieba = jieba;
+	}
 	private UpdateWords(editor: vscode.TextEditor) {
 		const position = editor.selection.active;
 		const line = position.line;
@@ -35,7 +37,12 @@ export class CnWords {
 		}
 		// console.log("updating words");
 		this.previousLine = lineText;
-		let words = jieba.cut(lineText, true);
+		let words;
+		try {
+			words = this.jieba.cut(lineText, true);
+		} catch (e) {
+			console.error('jieba cut error:', e);
+		}
 		// merge adjcent whitespace
 		words = words.reduce((acc: string[], word: string) => {
 			if (word.trim() === '') {

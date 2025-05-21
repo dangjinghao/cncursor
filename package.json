@@ -1,5 +1,6 @@
 {
   "name": "cncursor",
+  "publisher": "dangjinghao",
   "displayName": "cncursor",
   "description": "Enhanced cursor movement and word operations for Chinese text in VS Code.",
   "version": "0.0.1",
@@ -73,27 +74,29 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "cppjieba:dict": "mkdir -p out/dict && cp -r cppjieba/dict/*.utf8 out/dict/",
+    "compile": "npm run cppjieba:dict && tsc -p ./",
+    "watch": "npm run cppjieba:dict && tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.100.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/tar": "^6.1.13",
+    "@types/vscode": "^1.100.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.3",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "nodejieba": "^3.4.4"
+    "tar": "^7.4.3"
   },
-  "repository":{
+  "repository": {
     "type": "git",
     "url": "https://github.com/dangjinghao/cncursor.git"
   }

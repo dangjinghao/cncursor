@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
-import * as jieba from 'nodejieba';
+import * as ensureNodejieba from './ensureNodejieba';
 import { CnWords } from './CnWords';
 
-export function activate(context: vscode.ExtensionContext) {
-	jieba.load();
+export async function activate(context: vscode.ExtensionContext) {
+	const jieba = await ensureNodejieba.ensure(context);
 
-	let cnw = new CnWords();
+	let cnw = new CnWords(jieba);
 	// vscode.window.onDidChangeTextEditorSelection(cnw.WatchLineSelection());
 
 	const disposableLeft = vscode.commands.registerCommand('cncursor.moveLeft', cnw.MoveLeft());
