@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import * as ensureNodejieba from './ensureNodejieba';
+import * as ensureNodejieba from './EnsureNodejieba';
 import { CnWords } from './CnWords';
 
 export async function activate(context: vscode.ExtensionContext) {

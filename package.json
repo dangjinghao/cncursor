@@ -1,9 +1,19 @@
 {
   "name": "cncursor",
   "publisher": "dangjinghao",
+  "license": "MIT",
+  "keywords": [
+    "chinese",
+    "cursor",
+    "word",
+    "中文",
+    "光标",
+    "单词",
+    "中文分词"
+  ],
   "displayName": "cncursor",
   "description": "Enhanced cursor movement and word operations for Chinese text in VS Code.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.100.0"
   },
@@ -43,31 +53,37 @@
       {
         "command": "cncursor.moveLeft",
         "key": "ctrl+left",
+        "mac": "cmd+left",
         "when": "textInputFocus && !accessibilityModeEnabled"
       },
       {
         "command": "cncursor.moveRight",
         "key": "ctrl+right",
+        "mac": "cmd+right",
         "when": "textInputFocus && !accessibilityModeEnabled"
       },
       {
         "command": "cncursor.deleteRight",
         "key": "ctrl+delete",
+        "mac": "cmd+delete",
         "when": "textInputFocus && !editorReadonly"
       },
       {
         "command": "cncursor.deleteLeft",
         "key": "ctrl+backspace",
+        "mac": "cmd+backspace",
         "when": "textInputFocus && !editorReadonly"
       },
       {
         "command": "cncursor.selectRight",
         "key": "ctrl+shift+right",
+        "mac": "cmd+shift+right",
         "when": "textInputFocus && !accessibilityModeEnabled"
       },
       {
         "command": "cncursor.selectLeft",
         "key": "ctrl+shift+left",
+        "mac": "cmd+shift+left",
         "when": "textInputFocus && !accessibilityModeEnabled"
       }
     ]

@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { Logger } from './Logger';
 
 interface WordInfo {
 	word: string;
@@ -12,6 +13,7 @@ interface PosInfo {
 }
 
 export class CnWords {
+	private logger: Logger = new Logger('CnWords');
 	private previousLine: string = '';
 	private currentLineWords: WordInfo[] = [];
 	private jieba: any;
@@ -35,14 +37,10 @@ export class CnWords {
 		if (this.previousLine === lineText) {
 			return;
 		}
-		// console.log("updating words");
+		this.logger.debug("updating words");
 		this.previousLine = lineText;
-		let words;
-		try {
-			words = this.jieba.cut(lineText, true);
-		} catch (e) {
-			console.error('jieba cut error:', e);
-		}
+		let words = this.jieba.cut(lineText, true);
+
 		// merge adjcent whitespace
 		words = words.reduce((acc: string[], word: string) => {
 			if (word.trim() === '') {
