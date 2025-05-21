@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as jieba from 'nodejieba';
-import { assert } from 'console';
 
 interface WordInfo {
 	word: string;
