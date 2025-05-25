@@ -54,39 +54,64 @@
         "command": "cncursor.moveLeft",
         "key": "ctrl+left",
         "mac": "cmd+left",
-        "when": "textInputFocus && !accessibilityModeEnabled"
+        "when": "editorTextFocus"
       },
       {
         "command": "cncursor.moveRight",
         "key": "ctrl+right",
         "mac": "cmd+right",
-        "when": "textInputFocus && !accessibilityModeEnabled"
+        "when": "editorTextFocus"
       },
       {
         "command": "cncursor.deleteRight",
         "key": "ctrl+delete",
         "mac": "cmd+delete",
-        "when": "textInputFocus && !editorReadonly"
+        "when": "editorTextFocus && !editorReadonly"
       },
       {
         "command": "cncursor.deleteLeft",
         "key": "ctrl+backspace",
         "mac": "cmd+backspace",
-        "when": "textInputFocus && !editorReadonly"
+        "when": "editorTextFocus && !editorReadonly"
       },
       {
         "command": "cncursor.selectRight",
         "key": "ctrl+shift+right",
         "mac": "cmd+shift+right",
-        "when": "textInputFocus && !accessibilityModeEnabled"
+        "when": "editorTextFocus"
       },
       {
         "command": "cncursor.selectLeft",
         "key": "ctrl+shift+left",
         "mac": "cmd+shift+left",
-        "when": "textInputFocus && !accessibilityModeEnabled"
+        "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "cncursor配置",
+      "properties": {
+        "cncursor.logLevel": {
+          "type": "string",
+          "default": "info",
+          "description": "日志级别",
+          "enum": [
+            "info",
+            "debug",
+            "trace"
+          ]
+        },
+        "cncursor.userWords": {
+          "type": "string",
+          "default": "",
+          "description": "用户自定义中文单词，初始化`nodejieba`后遍历动态加载，多个词用空格` `分隔"
+        },
+        "cncursor.userDictPath": {
+          "type": "string",
+          "default": "",
+          "description": "用户自定义的`nodejieba`格式词典路径，初始化时加载"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

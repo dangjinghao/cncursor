@@ -14,13 +14,6 @@ const SUPPORT_NODE_VERSIONS = [
     '115', // Node 20
     '127', // Node 21
 ];
-const DICT_DIR = path.join(__dirname, 'dict/');
-
-const DEFAULT_DICT = DICT_DIR + "jieba.dict.utf8";
-const DEFAULT_HMM_DICT = DICT_DIR + "hmm_model.utf8";
-const DEFAULT_USER_DICT = DICT_DIR + "user.dict.utf8";
-const DEFAULT_IDF_DICT = DICT_DIR + "idf.utf8";
-const DEFAULT_STOP_WORD_DICT = DICT_DIR + "stop_words.utf8";
 
 async function downloadAndExtract(url: string, extractDir: string) {
     const tmpPath = path.join(extractDir, 'tmp.tar.gz');
@@ -77,7 +70,7 @@ export async function ensure(context: vscode.ExtensionContext): Promise<any> {
     const platform = process.platform;
     let nodeABIVersion = process.versions.modules;
     if (!SUPPORT_NODE_VERSIONS.includes(nodeABIVersion)) {
-        const warnMsg = `[Unsupported Node Version] ${nodeABIVersion}. Supported versions: ${SUPPORT_NODE_VERSIONS.join(', ')}. Try to install the latest ABI version of nodejieba.`;
+        const warnMsg = `[Unsupported Node ABI Version] ${nodeABIVersion}. Supported versions: ${SUPPORT_NODE_VERSIONS.join(', ')}. Try to install the latest ABI version of nodejieba.`;
         logger.warn(warnMsg);
         nodeABIVersion = SUPPORT_NODE_VERSIONS[SUPPORT_NODE_VERSIONS.length - 1];
     }
@@ -114,9 +107,7 @@ export async function ensure(context: vscode.ExtensionContext): Promise<any> {
             logger.error(`[Require Error] ${err.message}`);
             throw err;
         }
-        jieba.load(DEFAULT_DICT, DEFAULT_HMM_DICT, DEFAULT_USER_DICT, DEFAULT_IDF_DICT, DEFAULT_STOP_WORD_DICT);
 
-        logger.info(`[Success] nodejieba loaded successfully.`);
         return jieba;
     } catch (err: any) {
         logger.error(err);

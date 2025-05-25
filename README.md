@@ -2,6 +2,8 @@
 
 基于nodejieba，为VS Code提供基于中文分词的光标移动支持。
 
+如果没有下载`nodejieba`的二进制文件，将会在启动插件时（即触发`cncursor.*`按键），自动从[nodejieba的releases](https://github.com/yanyiwu/nodejieba/releases)下载二进制文件并解压。因此，第一次使用需要能够流畅访问`GitHub`相关网站的网络环境。
+
 ## Features
 
 - 基于中文分词的左右移动
@@ -34,9 +36,7 @@ VS Code所携带的node运行时可能过新，导致无法匹配到可从nodeji
 
 ## TODO List
 
-- 支持工作区级的用户字典
 - 支持清空与重新下载功能
-- 支持导入字典
 - 完善测试用例
 - 上传到市场
 - 自动构建
