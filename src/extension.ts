@@ -53,7 +53,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		DEFAULT_STOP_WORD_DICT);
 
 	LoadUserWords(jieba, userWords);
-	logger.info(`[Success] nodejieba loaded successfully.`);
+	logger.info(`nodejieba loaded successfully.`);
 
 	let cnw = new CnWords(jieba);
 	// vscode.window.onDidChangeTextEditorSelection(cnw.WatchLineSelection());
