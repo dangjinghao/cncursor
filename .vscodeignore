@@ -10,4 +10,5 @@ vsc-extension-quickstart.md
 **/*.ts
 **/.vscode-test.*
 **/cppjieba/**
-**/.git**
+**/.gitmodules
+**/test/**
