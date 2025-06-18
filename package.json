@@ -109,6 +109,11 @@
           "type": "string",
           "default": "",
           "description": "用户自定义的`nodejieba`格式词典路径，初始化时加载"
+        },
+        "cncursor.clearCacheOnNextRun": {
+          "type": "boolean",
+          "default": false,
+          "description": "在下次插件运行时清除缓存并重新下载nodejieba。适用于nodejieba版本更新或需要重复下载的情况"
         }
       }
     }

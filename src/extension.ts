@@ -36,7 +36,15 @@ export async function activate(context: vscode.ExtensionContext) {
 	const logLevel = config.get<string>("logLevel");
 	const userWords = config.get<string>("userWords");
 	const userDictPath = config.get<string>("userDictPath");
-
+	const clearCacheOnNextRun = config.get<boolean>("clearCacheOnNextRun");
+	if (clearCacheOnNextRun) {
+		logger.info("Clearing nodejieba cache.");
+		ensureNodejieba.clearCache(context);
+		logger.debug("Setting 'cncursor.clearCacheOnNextRun' to false.");
+		config.update("clearCacheOnNextRun", false, vscode.ConfigurationTarget.Global)
+			.then(() => logger.debug("clearCacheOnNextRun Configuration updated successfully."), (err) => logger.error(`Failed to update clearCacheOnNextRun configuration: ${err}`));
+		
+	}
 	assert(logLevel !== undefined);
 	assert(userWords !== undefined);
 	assert(userDictPath !== undefined);

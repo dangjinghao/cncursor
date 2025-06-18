@@ -132,3 +132,17 @@ export async function ensure(context: vscode.ExtensionContext): Promise<any> {
 
 
 }
+
+export function clearCache(context: vscode.ExtensionContext) {
+    const binDir = path.join(context.globalStorageUri.fsPath, 'nodejieba');
+    if (fs.existsSync(binDir)) {
+        try {
+            fs.rmSync(binDir, { recursive: true, force: true });
+            logger.info(`[Cache Cleared] Removed directory: ${binDir}`);
+        } catch (err: any) {
+            logger.error(`[Cache Clear Error] ${err.message}`);
+        }
+    } else {
+        logger.info(`[Cache Not Found] Directory does not exist: ${binDir}`);
+    }
+}
