@@ -26,11 +26,11 @@
     "commands": [
       {
         "command": "cncursor.moveLeft",
-        "title": "向左移动一个中文单词距离的光标"
+        "title": "光标向左移动一个中文单词距离"
       },
       {
         "command": "cncursor.moveRight",
-        "title": "向右移动一个中文单词距离的光标"
+        "title": "光标向右移动一个中文单词距离"
       },
       {
         "command": "cncursor.deleteRight",
@@ -54,37 +54,37 @@
         "command": "cncursor.moveLeft",
         "key": "ctrl+left",
         "mac": "cmd+left",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && !accessibilityModeEnabled"
       },
       {
         "command": "cncursor.moveRight",
         "key": "ctrl+right",
         "mac": "cmd+right",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && !accessibilityModeEnabled && !inlineSuggestionVisible"
       },
       {
         "command": "cncursor.deleteRight",
         "key": "ctrl+delete",
         "mac": "cmd+delete",
-        "when": "editorTextFocus && !editorReadonly"
+        "when": "editorTextFocus && !editorReadonly && !accessibilityModeEnabled"
       },
       {
         "command": "cncursor.deleteLeft",
         "key": "ctrl+backspace",
         "mac": "cmd+backspace",
-        "when": "editorTextFocus && !editorReadonly"
+        "when": "editorTextFocus && !editorReadonly && !accessibilityModeEnabled"
       },
       {
         "command": "cncursor.selectRight",
         "key": "ctrl+shift+right",
         "mac": "cmd+shift+right",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && !accessibilityModeEnabled"
       },
       {
         "command": "cncursor.selectLeft",
         "key": "ctrl+shift+left",
         "mac": "cmd+shift+left",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && !accessibilityModeEnabled"
       }
     ],
     "configuration": {
